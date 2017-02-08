@@ -1,9 +1,13 @@
-const base = 'https://accounts.spotify.com/authorize'
+import fetch from 'isomorphic-fetch'
+
+const apiUrl = 'https://api.spotify.com/v1'
+
+const accountsUrl = 'https://accounts.spotify.com/authorize'
 const client = 'client_id=66262c3ee763474a87027a6d30508de0'
 const redirect = 'redirect_uri=http://localhost:3000'
 const responseType = 'response_type=token'
 const scopes = 'scope=user-top-read playlist-modify-private'
-export const authorizeHref = `${base}?${client}&${redirect}&${responseType}&${scopes}`
+export const authorizeHref = `${accountsUrl}?${client}&${redirect}&${responseType}&${scopes}`
 
 export const getToken = (hash) => {
   const regexp = /.access_token=(.*)&token_type.*/g
@@ -13,3 +17,10 @@ export const getToken = (hash) => {
   }
   return null
 }
+
+const getHeaders = token => ({ Authorization: `Bearer ${token}` })
+
+export const getTopTracks = (token, range = 'medium_term') =>
+  fetch(`${apiUrl}/me/top/tracks?time_range=${range}&limit=50`, {
+    headers: getHeaders(token),
+  }).then(x => x.json())
