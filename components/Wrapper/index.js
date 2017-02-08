@@ -1,5 +1,4 @@
 import React from 'react'
-import Head from 'next/head'
 import { css } from 'glamor'
 
 const styles = css({
@@ -20,10 +19,6 @@ const footerStyles = css({
 
 const Wrapper = ({ children }) => (
   <div className={styles}>
-    <Head>
-      <title>Spotify Top Tracks</title>
-      <link rel="stylesheet" type="text/css" href="static/main.css" />
-    </Head>
     {children}
     <footer className={footerStyles}>
       Made by <a href="http://albenesi.us">Frank Albenesius</a> with the <a href="https://developer.spotify.com/web-api/">Spotify Web API</a>.
