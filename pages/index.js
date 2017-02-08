@@ -123,7 +123,7 @@ class IndexPage extends React.Component {
       // not pending and definitely authorized, should have tracks!
       content = (
         <div>
-          <h2>These are your top {trackLimit} tracks from the last few:</h2>
+          <h2>These are your top {trackLimit} tracks from the last few</h2>
           <div>
             {this.state.tracklistsOrder.map(id => this.state.tracklists[id]).map(tracklist => (
               <Column key={tracklist.display}>
@@ -143,7 +143,7 @@ class IndexPage extends React.Component {
           </div>
           {this.state.special.length > 0 ? (
             <div>
-              <h2>{'Tracks that transcend time:'}</h2>
+              <h2>{'Tracks That Transcend Time'}</h2>
               <TrackList tracks={this.state.special} />
             </div>
           ) : null}
