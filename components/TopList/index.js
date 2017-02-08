@@ -34,7 +34,9 @@ const Track = ({ track }) => (
 
 const TopList = ({ tracks, children }) => (
   <div className={listStyles}>
-    <h2>{children}</h2>
+    {children ? (
+      <h2>{children}</h2>
+    ) : null}
     {tracks.map(track => (
       <Track key={track.id} track={track} />
     ))}
