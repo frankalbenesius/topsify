@@ -1,0 +1,14 @@
+{
+  "name": "topsify",
+  "version": "1.0.0",
+  "description": "Make a neat app using spotify's web api!",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+  },
+  "repository": {},
+  "author": "Frank Albenesius",
+  "license": "MIT"
+}

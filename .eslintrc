@@ -1,0 +1,9 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "semi": ["error", "never"],
+    "react/jsx-filename-extension": 0,
+    "import/no-extraneous-dependencies": 0, # due to a nested Next dependencies
+    "react/forbid-prop-types": 0,
+  },
+}
