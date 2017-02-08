@@ -14,6 +14,10 @@ const styles = css({
   },
 })
 
+const footerStyles = css({
+  marginTop: '4rem',
+})
+
 const Wrapper = ({ children }) => (
   <div className={styles}>
     <Head>
@@ -21,6 +25,9 @@ const Wrapper = ({ children }) => (
       <link rel="stylesheet" type="text/css" href="static/main.css" />
     </Head>
     {children}
+    <footer className={footerStyles}>
+      Made by <a href="http://albenesi.us">Frank Albenesius</a> with the <a href="https://developer.spotify.com/web-api/">Spotify Web API</a>.
+    </footer>
   </div>
 )
 
