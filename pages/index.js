@@ -59,6 +59,8 @@ class IndexPage extends React.Component {
   }
   render() {
     // admittedly hacky state management, sorry
+    // a more production-ready application could have several wrapper components
+    // that check for each of these boolean states independently
     let content
     if (this.state.error) {
       content = <div>Sorry! Something went wrong.</div>
