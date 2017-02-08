@@ -3,11 +3,15 @@ import Head from 'next/head'
 import { css } from 'glamor'
 
 const styles = css({
-  padding: '1rem',
+  maxWidth: '52rem',
+  padding: '1rem 2rem',
   width: '100%',
-  maxWidth: '50rem',
   textAlign: 'left',
   margin: '0 auto',
+  backgroundColor: 'white',
+  '@media(min-width: 54rem)': {
+    margin: '2rem auto',
+  },
 })
 
 const Wrapper = ({ children }) => (

@@ -1,15 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 
-const listStyles = css({
-  display: 'inline-block',
-  width: '33%',
-  minWidth: '15rem',
-  verticalAlign: 'top',
-  textAlign: 'left',
-})
-
-const itemStyles = css({
+const styles = css({
   textAlign: 'left',
   width: '100%',
   whiteSpace: 'nowrap',
@@ -27,20 +19,17 @@ const linkStyles = css({
 })
 
 const Track = ({ track }) => (
-  <div className={itemStyles}>
+  <div className={styles}>
     <a title="Open in Spotify" className={linkStyles} href={track.uri}>{track.name}</a>
   </div>
 )
 
-const TopList = ({ tracks, children }) => (
-  <div className={listStyles}>
-    {children ? (
-      <h2>{children}</h2>
-    ) : null}
+const TrackList = ({ tracks }) => (
+  <div>
     {tracks.map(track => (
       <Track key={track.id} track={track} />
     ))}
   </div>
 )
 
-export default TopList
+export default TrackList

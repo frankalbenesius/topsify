@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import { trackLimit } from './constants'
 
 const apiUrl = 'https://api.spotify.com/v1'
 
@@ -20,7 +21,12 @@ export const getToken = (hash) => {
 
 const getHeaders = token => ({ Authorization: `Bearer ${token}` })
 
-export const getTopTracks = (token, range = 'medium_term', limit = 20) =>
+export const getTopTracks = (token, range = 'medium_term', limit = trackLimit) =>
   fetch(`${apiUrl}/me/top/tracks?time_range=${range}&limit=${limit}`, {
+    headers: getHeaders(token),
+  }).then(x => x.json())
+
+export const getPlaylists = token =>
+  fetch(`${apiUrl}/me/playlists`, {
     headers: getHeaders(token),
   }).then(x => x.json())
