@@ -2,7 +2,13 @@
 import React from 'react'
 
 import { trackLimit } from '../modules/constants'
-import { authorizeHref, getToken, getTopTracks } from '../modules/spotify'
+import {
+  authorizeHref,
+  getToken,
+  getUserId,
+  getTopTracks,
+  createPlaylist,
+} from '../modules/spotify'
 
 import Button from '../components/Button'
 import Column from '../components/Column'
@@ -45,6 +51,7 @@ class IndexPage extends React.Component {
         getTopTracks(this.state.token, 'long_term'),
         getTopTracks(this.state.token, 'medium_term'),
         getTopTracks(this.state.token, 'short_term'),
+        getUserId(this.state.token),
       ]).then((response) => {
         this.setState({
           tracks: {
@@ -53,6 +60,7 @@ class IndexPage extends React.Component {
             short: response[2].items,
             special: getSpecialTracks(response),
           },
+          userId: response[3],
           pending: false,
         })
       }, (error) => {
@@ -85,17 +93,29 @@ class IndexPage extends React.Component {
             <Column>
               <h2>Weeks</h2>
               <TrackList tracks={this.state.tracks.short} />
-              <Button>Create Playlist</Button>
+              <Button
+                onClick={createPlaylist(this.state.token, this.state.userId, 'name')}
+              >
+                Create Playlist
+              </Button>
             </Column>
             <Column>
               <h2>Months</h2>
               <TrackList tracks={this.state.tracks.medium} />
-              <Button>Create Playlist</Button>
+              <Button
+                onClick={createPlaylist(this.state.token, this.state.userId, 'name')}
+              >
+                Create Playlist
+              </Button>
             </Column>
             <Column>
               <h2>Years</h2>
               <TrackList tracks={this.state.tracks.long} />
-              <Button>Create Playlist</Button>
+              <Button
+                onClick={createPlaylist(this.state.token, this.state.userId, 'name')}
+              >
+                Create Playlist
+              </Button>
             </Column>
           </div>
           {this.state.tracks.special.length > 0 ? (

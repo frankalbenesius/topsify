@@ -19,14 +19,34 @@ export const getToken = (hash) => {
   return null
 }
 
-const getHeaders = token => ({ Authorization: `Bearer ${token}` })
+const getHeaders = token => ({
+  Authorization: `Bearer ${token}`,
+  'Content-Type': 'application/json',
+})
+
+export const getUserId = token =>
+  fetch(`${apiUrl}/me`, {
+    headers: getHeaders(token),
+  }).then(x => x.json()).then(x => x.id)
 
 export const getTopTracks = (token, range = 'medium_term', limit = trackLimit) =>
   fetch(`${apiUrl}/me/top/tracks?time_range=${range}&limit=${limit}`, {
     headers: getHeaders(token),
   }).then(x => x.json())
 
-export const getPlaylists = token =>
-  fetch(`${apiUrl}/me/playlists`, {
-    headers: getHeaders(token),
-  }).then(x => x.json())
+export const createPlaylist = (token, userId, name) => {
+  console.log('creating playlist', name)
+  return () => {
+    fetch(`${apiUrl}/users/${userId}/playlists`, {
+      method: 'POST',
+      headers: getHeaders(token),
+      body: JSON.stringify({
+        name,
+        public: false, // private playlist
+      }),
+    }).then(x => x.json())
+    .then((response) => {
+      console.log('success', response)
+    })
+  }
+}
