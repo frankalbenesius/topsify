@@ -1,5 +1,6 @@
 /* global window */
 import React from 'react'
+import format from 'date-fns/format'
 
 import { trackLimit } from '../modules/constants'
 import {
@@ -30,6 +31,7 @@ class IndexPage extends React.Component {
     this.state = {
       pending: true,
     }
+    this.createPlaylistHandler = this.createPlaylistHandler.bind(this)
   }
   componentDidMount() {
     const token = getToken(window.location.hash)
@@ -68,6 +70,12 @@ class IndexPage extends React.Component {
       })
     }
   }
+  createPlaylistHandler(range, tracks) {
+    const prettyDate = format(new Date(), 'MM/DD/YY') // for playlist names
+    return () => {
+      createPlaylist(this.state.token, this.state.userId, `Last Few ${range} - ${prettyDate}`, tracks)
+    }
+  }
   render() {
     // admittedly hacky state management, sorry
     // a more production-ready application could have several wrapper components
@@ -94,7 +102,7 @@ class IndexPage extends React.Component {
               <h2>Weeks</h2>
               <TrackList tracks={this.state.tracks.short} />
               <Button
-                onClick={createPlaylist(this.state.token, this.state.userId, 'name')}
+                onClick={this.createPlaylistHandler('Weeks', this.state.tracks.short)}
               >
                 Create Playlist
               </Button>
@@ -103,7 +111,7 @@ class IndexPage extends React.Component {
               <h2>Months</h2>
               <TrackList tracks={this.state.tracks.medium} />
               <Button
-                onClick={createPlaylist(this.state.token, this.state.userId, 'name')}
+                onClick={this.createPlaylistHandler('Months', this.state.tracks.medium)}
               >
                 Create Playlist
               </Button>
@@ -112,7 +120,7 @@ class IndexPage extends React.Component {
               <h2>Years</h2>
               <TrackList tracks={this.state.tracks.long} />
               <Button
-                onClick={createPlaylist(this.state.token, this.state.userId, 'name')}
+                onClick={this.createPlaylistHandler('Years', this.state.tracks.long)}
               >
                 Create Playlist
               </Button>

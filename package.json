@@ -12,6 +12,7 @@
   "author": "Frank Albenesius",
   "license": "MIT",
   "dependencies": {
+    "date-fns": "^1.27.2",
     "glamor": "^2.20.22",
     "isomorphic-fetch": "^2.2.1",
     "next": "^1.2.3"

@@ -34,19 +34,22 @@ export const getTopTracks = (token, range = 'medium_term', limit = trackLimit) =
     headers: getHeaders(token),
   }).then(x => x.json())
 
-export const createPlaylist = (token, userId, name) => {
-  console.log('creating playlist', name)
-  return () => {
-    fetch(`${apiUrl}/users/${userId}/playlists`, {
+export const createPlaylist = (token, userId, name, tracks) =>
+  fetch(`${apiUrl}/users/${userId}/playlists`, {
+    method: 'POST',
+    headers: getHeaders(token),
+    body: JSON.stringify({
+      name,
+      public: false, // private playlist
+    }),
+  }).then(x => x.json())
+  .then((response) => {
+    const playlistId = response.id
+    fetch(`${apiUrl}/users/${userId}/playlists/${playlistId}/tracks`, {
       method: 'POST',
       headers: getHeaders(token),
       body: JSON.stringify({
-        name,
-        public: false, // private playlist
+        uris: tracks.map(track => track.uri),
       }),
-    }).then(x => x.json())
-    .then((response) => {
-      console.log('success', response)
     })
-  }
-}
+  })
