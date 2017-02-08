@@ -1,7 +1,7 @@
 {
   "name": "topsify",
   "version": "1.0.0",
-  "description": "Make a neat app using spotify's web api!",
+  "description": "A React app that uses the Spotify Web API to help Spotify users generate playlists based on their top played tracks.",
   "main": "index.js",
   "scripts": {
     "dev": "next",
