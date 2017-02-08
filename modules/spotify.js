@@ -5,7 +5,7 @@ const apiUrl = 'https://api.spotify.com/v1'
 
 const accountsUrl = 'https://accounts.spotify.com/authorize'
 const client = 'client_id=66262c3ee763474a87027a6d30508de0'
-const redirect = 'redirect_uri=http://localhost:3000'
+const redirect = 'redirect_uri=spotify.albenesi.us'
 const responseType = 'response_type=token'
 const scopes = 'scope=user-top-read playlist-modify-private'
 export const authorizeHref = `${accountsUrl}?${client}&${redirect}&${responseType}&${scopes}`
