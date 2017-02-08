@@ -5,6 +5,7 @@ import { authorizeHref, getToken, getTopTracks } from '../modules/spotify'
 
 import Wrapper from '../components/Wrapper'
 import TopList from '../components/TopList'
+import Logo from '../components/Logo'
 
 class IndexPage extends React.Component {
   constructor(props) {
@@ -71,6 +72,7 @@ class IndexPage extends React.Component {
     }
     return (
       <Wrapper>
+        <Logo />
         <h1>Review Your Top Tracks</h1>
         {content}
       </Wrapper>
