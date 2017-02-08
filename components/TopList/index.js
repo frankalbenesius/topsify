@@ -1,17 +1,42 @@
 import React from 'react'
 import { css } from 'glamor'
 
-const styles = css({
+const listStyles = css({
   display: 'inline-block',
-  margin: '1rem',
-  maxWidth: '20rem',
+  width: '33%',
+  minWidth: '15rem',
+  verticalAlign: 'top',
+  textAlign: 'left',
 })
 
+const itemStyles = css({
+  textAlign: 'left',
+  width: '100%',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+})
+
+const linkStyles = css({
+  textDecoration: 'none',
+  color: 'black',
+  ':hover': {
+    textDecoration: 'underline',
+    color: '#1DB954',
+  },
+})
+
+const Track = ({ track }) => (
+  <div className={itemStyles}>
+    <a title="Open in Spotify" className={linkStyles} href={track.uri}>{track.name}</a>
+  </div>
+)
+
 const TopList = ({ tracks, children }) => (
-  <div className={styles}>
+  <div className={listStyles}>
     <h2>{children}</h2>
     {tracks.map(track => (
-      <div key={track.id}>{track.name}</div>
+      <Track key={track.id} track={track} />
     ))}
   </div>
 )

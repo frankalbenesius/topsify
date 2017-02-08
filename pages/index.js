@@ -1,9 +1,9 @@
 /* global window */
 import React from 'react'
-import Head from 'next/head'
 
 import { authorizeHref, getToken, getTopTracks } from '../modules/spotify'
 
+import Wrapper from '../components/Wrapper'
 import TopList from '../components/TopList'
 
 class IndexPage extends React.Component {
@@ -60,21 +60,20 @@ class IndexPage extends React.Component {
       // not pending and definitely authorized, should have tracks!
       content = (
         <div>
-          <TopList tracks={this.state.tracks.long}>Long</TopList>
-          <TopList tracks={this.state.tracks.medium}>Medium</TopList>
-          <TopList tracks={this.state.tracks.short}>Short</TopList>
+          <h2>These are your top 20 tracks from the last few:</h2>
+          <div>
+            <TopList tracks={this.state.tracks.short}>Weeks</TopList>
+            <TopList tracks={this.state.tracks.medium}>Months</TopList>
+            <TopList tracks={this.state.tracks.long}>Years</TopList>
+          </div>
         </div>
       )
     }
     return (
-      <div>
-        <Head>
-          <title>Topsify</title>
-          <link rel="stylesheet" type="text/css" href="static/main.css" />
-        </Head>
-        <h1>TOPSIFY</h1>
+      <Wrapper>
+        <h1>Review Your Top Tracks</h1>
         {content}
-      </div>
+      </Wrapper>
     )
   }
 }

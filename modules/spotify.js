@@ -20,7 +20,7 @@ export const getToken = (hash) => {
 
 const getHeaders = token => ({ Authorization: `Bearer ${token}` })
 
-export const getTopTracks = (token, range = 'medium_term') =>
-  fetch(`${apiUrl}/me/top/tracks?time_range=${range}&limit=50`, {
+export const getTopTracks = (token, range = 'medium_term', limit = 20) =>
+  fetch(`${apiUrl}/me/top/tracks?time_range=${range}&limit=${limit}`, {
     headers: getHeaders(token),
   }).then(x => x.json())
