@@ -14,10 +14,13 @@ const styles = css({
   ':hover': {
     backgroundColor: brandColorDark,
   },
+  ':disabled': {
+    backgroundColor: 'gainsboro',
+  },
 })
 
-const Logo = ({ children, onClick }) => (
-  <button onClick={onClick} className={styles}>{children}</button>
+const Logo = ({ children, onClick, disabled }) => (
+  <button disabled={disabled} onClick={onClick} className={styles}>{children}</button>
 )
 
 export default Logo

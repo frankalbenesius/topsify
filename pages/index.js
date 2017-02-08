@@ -18,10 +18,10 @@ import TrackList from '../components/TrackList'
 import Logo from '../components/Logo'
 
 const presentIn = trackIds => track => trackIds.indexOf(track.id) > -1
-const getSpecialTracks = (trackLists) => {
-  const long = trackLists[0].items
-  const mediumIds = trackLists[1].items.map(x => x.id)
-  const shortIds = trackLists[2].items.map(x => x.id)
+const getSpecialTracks = (tracklists) => {
+  const long = tracklists[0].items
+  const mediumIds = tracklists[1].items.map(x => x.id)
+  const shortIds = tracklists[2].items.map(x => x.id)
   return long.filter(presentIn(mediumIds)).filter(presentIn(shortIds))
 }
 
@@ -48,20 +48,36 @@ class IndexPage extends React.Component {
     }
   }
   componentDidUpdate() {
-    if (this.state.token && !this.state.tracks) {
+    if (this.state.token && !this.state.tracklists) {
       Promise.all([
-        getTopTracks(this.state.token, 'long_term'),
-        getTopTracks(this.state.token, 'medium_term'),
         getTopTracks(this.state.token, 'short_term'),
+        getTopTracks(this.state.token, 'medium_term'),
+        getTopTracks(this.state.token, 'long_term'),
         getUserId(this.state.token),
       ]).then((response) => {
         this.setState({
-          tracks: {
-            long: response[0].items,
-            medium: response[1].items,
-            short: response[2].items,
-            special: getSpecialTracks(response),
+          tracklists: {
+            short: {
+              id: 'short',
+              display: 'Weeks',
+              items: response[0].items,
+              playlistCreated: false,
+            },
+            medium: {
+              id: 'medium',
+              display: 'Months',
+              items: response[1].items,
+              playlistCreated: false,
+            },
+            long: {
+              id: 'long',
+              display: 'Years',
+              items: response[0].items,
+              playlistCreated: false,
+            },
           },
+          tracklistsOrder: ['short', 'medium', 'long'],
+          special: getSpecialTracks(response),
           userId: response[3],
           pending: false,
         })
@@ -70,10 +86,19 @@ class IndexPage extends React.Component {
       })
     }
   }
-  createPlaylistHandler(range, tracks) {
+  createPlaylistHandler(tracklist) {
     const prettyDate = format(new Date(), 'MM/DD/YY') // for playlist names
     return () => {
-      createPlaylist(this.state.token, this.state.userId, `Last Few ${range} - ${prettyDate}`, tracks)
+      // gosh this is contrived, but it is starting to resemble a reducer :/
+      this.setState({
+        tracklists: {
+          ...this.state.tracklists,
+          [tracklist.id]: {
+            ...tracklist,
+            playlistCreated: true,
+          },
+        },
+      }, () => createPlaylist(this.state.token, this.state.userId, `Last Few ${tracklist.display} - ${prettyDate}`, tracklist.items))
     }
   }
   render() {
@@ -98,38 +123,26 @@ class IndexPage extends React.Component {
         <div>
           <h2>These are your top {trackLimit} tracks from the last few:</h2>
           <div>
-            <Column>
-              <h2>Weeks</h2>
-              <TrackList tracks={this.state.tracks.short} />
-              <Button
-                onClick={this.createPlaylistHandler('Weeks', this.state.tracks.short)}
-              >
-                Create Playlist
-              </Button>
-            </Column>
-            <Column>
-              <h2>Months</h2>
-              <TrackList tracks={this.state.tracks.medium} />
-              <Button
-                onClick={this.createPlaylistHandler('Months', this.state.tracks.medium)}
-              >
-                Create Playlist
-              </Button>
-            </Column>
-            <Column>
-              <h2>Years</h2>
-              <TrackList tracks={this.state.tracks.long} />
-              <Button
-                onClick={this.createPlaylistHandler('Years', this.state.tracks.long)}
-              >
-                Create Playlist
-              </Button>
-            </Column>
+            {this.state.tracklistsOrder.map(id => this.state.tracklists[id]).map(tracklist => (
+              <Column key={tracklist.display}>
+                <h2>{tracklist.display}</h2>
+                <TrackList tracks={tracklist.items} />
+                {tracklist.playlistCreated ? (
+                  <Button disabled>
+                    Playlist Created!
+                  </Button>
+                ) : (
+                  <Button onClick={this.createPlaylistHandler(tracklist)}>
+                    Create Playlist
+                  </Button>
+                )}
+              </Column>
+            ))}
           </div>
-          {this.state.tracks.special.length > 0 ? (
+          {this.state.special.length > 0 ? (
             <div>
               <h2>{'Tracks that transcend time:'}</h2>
-              <TrackList tracks={this.state.tracks.special} />
+              <TrackList tracks={this.state.special} />
             </div>
           ) : null}
         </div>
