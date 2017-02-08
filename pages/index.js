@@ -4,7 +4,7 @@ import format from 'date-fns/format'
 
 import { trackLimit } from '../modules/constants'
 import {
-  authorizeHref,
+  getAuthorizeHref,
   getToken,
   getUserId,
   getTopTracks,
@@ -114,7 +114,9 @@ class IndexPage extends React.Component {
       content = (
         <div>
           <p>In order to see your top tracks, you must authorize this site through Spotify.</p>
-          <a href={authorizeHref}><Button>Authorize With Spotify</Button></a>
+          <a href={getAuthorizeHref(window.location.origin)}>
+            <Button>Authorize With Spotify</Button>
+          </a>
         </div>
       )
     } else {
