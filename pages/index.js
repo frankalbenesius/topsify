@@ -72,7 +72,7 @@ class IndexPage extends React.Component {
             long: {
               id: 'long',
               display: 'Years',
-              items: response[0].items,
+              items: response[2].items,
               playlistCreated: false,
             },
           },
